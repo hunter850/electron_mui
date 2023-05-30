@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
+// types
 import type { IpcRendererEvent } from "electron";
 
 export const electronContext = {
@@ -19,6 +20,7 @@ export const electronContext = {
             ipcRenderer.removeListener("window-size-status", triggerHandler);
         };
     },
+    // tempPath: app.getPath("temp"),
 };
 
 contextBridge.exposeInMainWorld("electron", electronContext);

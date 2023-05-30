@@ -1,5 +1,8 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import * as path from "path";
+// lib
+import registWindowSizeStatusHandler from "./handlers/registWindowSizeStatusHandler";
+import registFileHandler from "./handlers/registFileHandler";
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -17,38 +20,8 @@ const createWindow = () => {
         win.loadURL("http://localhost:3000");
     }
 
-    /*--------------------------- check window size --------------------------*/
-    win.on("maximize", () => {
-        win.webContents.send("window-size-status", "maximize");
-    });
-
-    win.on("unmaximize", () => {
-        win.webContents.send("window-size-status", "unmaximize");
-    });
-
-    ipcMain.handle("check-window-is-maximize", () => {
-        return win.isMaximized();
-    });
-
-    ipcMain.handle("resize-window", (event, action) => {
-        switch (action) {
-            case "minimize":
-                win.minimize();
-                break;
-            case "maximize":
-                win.maximize();
-                break;
-            case "unmaximize":
-                win.unmaximize();
-                break;
-            default:
-                break;
-        }
-    });
-
-    ipcMain.handle("close-window", () => {
-        win.close();
-    });
+    registWindowSizeStatusHandler(win);
+    registFileHandler();
 
     // show window without setting focus
     win.showInactive();
