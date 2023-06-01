@@ -10,6 +10,7 @@ const createWindow = () => {
         height: 600,
         show: false, // disable initial window from showing
         titleBarStyle: "hidden",
+        icon: "../src/assets/icon.png",
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },

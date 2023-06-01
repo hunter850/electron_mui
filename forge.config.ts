@@ -7,9 +7,21 @@ import { MakerRpm } from "@electron-forge/maker-rpm";
 const config: ForgeConfig = {
     packagerConfig: {
         asar: true,
+        icon: "./src/assets/icon",
     },
     rebuildConfig: {},
-    makers: [new MakerSquirrel({}), new MakerZIP({}, ["darwin"]), new MakerRpm({}), new MakerDeb({})],
+    makers: [
+        new MakerSquirrel({
+            setupIcon: "./src/assets/icon.ico",
+        }),
+        new MakerZIP({}, ["darwin"]),
+        new MakerRpm({}),
+        new MakerDeb({
+            options: {
+                icon: "./src/assets/icon.png",
+            },
+        }),
+    ],
 };
 
 export default config;
