@@ -11,38 +11,42 @@ function registFileHandler() {
     });
     ipcMain.handle(
         "write-file",
-        async (event: IpcMainInvokeEvent, pathType: PathType, { fileKey, value }: { fileKey: string; value: any }) => {
+        async (
+            event: IpcMainInvokeEvent,
+            pathType: PathType,
+            { fileName, value }: { fileName: string; value: any }
+        ) => {
             try {
-                const targetPath = path.join(app.getPath(pathType), `electron_mui_${fileKey}.json`);
+                const targetPath = path.join(app.getPath(pathType), fileName);
                 await fs.promises.writeFile(targetPath, JSON.stringify(value));
-                return "success";
+                return { status: "success" };
             } catch (error: any) {
-                return "fail";
+                return { status: "fail", error };
             }
         }
     );
     ipcMain.handle(
         "read-file",
-        async (event: IpcMainInvokeEvent, pathType: PathType, { fileKey }: { fileKey: string }) => {
+        async (event: IpcMainInvokeEvent, pathType: PathType, { fileName }: { fileName: string }) => {
             try {
-                const targetPath = path.join(app.getPath(pathType), `electron_mui_${fileKey}.json`);
+                const targetPath = path.join(app.getPath(pathType), fileName);
                 const resultBuffer = await fs.promises.readFile(targetPath);
                 const result = JSON.parse(resultBuffer.toString());
                 return { status: "success", data: result };
             } catch (error: any) {
-                return { status: "fail", errorMessage: error.message };
+                return { status: "fail", error };
             }
         }
     );
     ipcMain.handle(
         "delete-file",
-        async (event: IpcMainInvokeEvent, pathType: PathType, { fileKey }: { fileKey: string }) => {
+        async (event: IpcMainInvokeEvent, pathType: PathType, { fileName }: { fileName: string }) => {
             try {
-                const targetPath = path.join(app.getPath(pathType), `electron_mui_${fileKey}.json`);
+                const targetPath = path.join(app.getPath(pathType), fileName);
                 await fs.promises.unlink(targetPath);
                 return { status: "success" };
             } catch (error: any) {
-                return { status: "fail", errorMessage: error.message };
+                return { status: "fail", error };
             }
         }
     );

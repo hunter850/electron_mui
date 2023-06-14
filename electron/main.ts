@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 // lib
+import registGlobalHandler from "./handlers/registGlobalHandler";
 import registWindowSizeStatusHandler from "./handlers/registWindowSizeStatusHandler";
 import registFileHandler from "./handlers/registFileHandler";
 
@@ -18,9 +19,10 @@ const createWindow = () => {
     if (app.isPackaged) {
         win.loadFile("./build/index.html");
     } else {
-        win.loadURL("http://localhost:3000");
+        win.loadURL("http://localhost:3300");
     }
 
+    registGlobalHandler();
     registWindowSizeStatusHandler(win);
     registFileHandler();
 

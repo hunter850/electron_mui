@@ -20,29 +20,29 @@ function Home(): JSX.Element {
     }
     async function writeGreetingHandler() {
         const result = await ipcRenderer.invoke("write-file", "appData", {
-            fileKey: "test",
+            fileName: "electron_mui_test.json",
             value: { greeting: "Hello World" },
         });
-        if (result === "success") {
-            console.log("write file success");
+        if (result.status === "success") {
+            enqueueSnackbar("write file successfully", { variant: "success" });
         } else {
-            console.log("write file fail");
+            enqueueSnackbar("failed to write the file", { variant: "error" });
         }
     }
     async function readGreetingHandler() {
-        const result = await ipcRenderer.invoke("read-file", "appData", { fileKey: "test" });
+        const result = await ipcRenderer.invoke("read-file", "appData", { fileName: "electron_mui_test.json" });
         if (result.status === "success") {
             console.log("reading data: ", result.data);
         } else {
-            console.log("error: ", result.errorMessage);
+            enqueueSnackbar(`failed to read the file: ${result.error.message}`, { variant: "error" });
         }
     }
     async function deleteGreetingHandler() {
-        const result = await ipcRenderer.invoke("delete-file", "appData", { fileKey: "test" });
+        const result = await ipcRenderer.invoke("delete-file", "appData", { fileName: "electron_mui_test.json" });
         if (result.status === "success") {
-            console.log("file delete success");
+            enqueueSnackbar("delete file successfully", { variant: "success" });
         } else {
-            console.log("file delete fail: ", result.errorMessage);
+            enqueueSnackbar(`failed to delete the file: ${result.error.message}`, { variant: "error" });
         }
     }
     useEffect(() => {

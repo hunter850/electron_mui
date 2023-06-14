@@ -20,7 +20,15 @@ export const electronContext = {
             ipcRenderer.removeListener("window-size-status", triggerHandler);
         };
     },
-    // tempPath: app.getPath("temp"),
+    isMac: async () => {
+        return (await ipcRenderer.invoke("is-mac")) as Promise<boolean>;
+    },
+    isWindows: async () => {
+        return (await ipcRenderer.invoke("is-windows")) as Promise<boolean>;
+    },
+    isLinux: async () => {
+        return (await ipcRenderer.invoke("is-linux")) as Promise<boolean>;
+    },
 };
 
 contextBridge.exposeInMainWorld("electron", electronContext);

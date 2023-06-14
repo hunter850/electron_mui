@@ -4,10 +4,13 @@ import AppBar, { AppBarProps } from "@mui/material/AppBar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 
 export const StyledAppBar = styled(AppBar)<AppBarProps>`
-    display: flex;
-    flex-direction: row;
-    position: static;
-    height: 30px;
+    &.MuiAppBar-root {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        height: 30px;
+        background-color: #fff;
+    }
 `;
 
 export const AppTitle = styled(Box)<BoxProps>`
@@ -39,11 +42,15 @@ export const ControlIconButton = styled(IconButton, { shouldForwardProp: (propNa
     padding: 8px 0px;
     &.MuiButtonBase-root:hover {
         background-color: ${({ isClose = false }) => (isClose ? "#f00c" : "#0003")};
+        & svg {
+            color: #fff;
+        }
     }
     & svg {
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center center;
+        color: gray;
     }
 `;
